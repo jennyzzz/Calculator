@@ -13,6 +13,24 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak private var display: UILabel!
     
     private var userIsTyping = false
+    
+    private var calculatorCounter = 0
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        calculatorCounter += 1
+        print("Loaded up a new Calculator (count = \(calculatorCounter))")
+        brain.addUnaryOperation("red√", operation: { [weak weakSelf = self] in
+            weakSelf?.display.textColor = UIColor.redColor()
+            return sqrt($0)
+        })
+    }
+    
+    deinit{
+        calculatorCounter -= 1
+        print ("Calculator left the heap (count = \(calculatorCounter))")
+    }
+    
 
     @IBAction private func number(sender: UIButton) {
         let digitNumber = sender.currentTitle!
